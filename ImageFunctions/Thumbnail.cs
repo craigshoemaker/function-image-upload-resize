@@ -79,6 +79,8 @@ namespace ImageFunctions
         {
             try
             {
+                log.LogInformation("Attempting upload...");
+
                 if (input != null)
                 {
                     var createdEvent = ((JObject)eventGridEvent.Data).ToObject<StorageBlobCreatedEventData>();
@@ -105,6 +107,8 @@ namespace ImageFunctions
                             image.Save(output, encoder);
                             output.Position = 0;
                             await blockBlob.UploadFromStreamAsync(output);
+
+                            log.LogInformation($"Thunbnail uploaded: {blobName}");
                         }
                     }
                     else
